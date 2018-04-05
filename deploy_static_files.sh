@@ -6,16 +6,16 @@ echo "Deploying static assets to ${STAGE}..."
 
 BUCKET_NAME=$(aws \
     cloudformation describe-stacks \
-    --stack-name "news-${STAGE}" \
+    --stack-name "wyld-rides-${STAGE}" \
     --query "Stacks[0].Outputs[?OutputKey=='WebSiteBucket'] | [0].OutputValue" \
     --output text)
 
 WEBSITE_URL=$(aws \
     cloudformation describe-stacks \
-    --stack-name "news-${STAGE}" \
+    --stack-name "wyld-rides-${STAGE}" \
     --query "Stacks[0].Outputs[?OutputKey=='WebSiteUrl'] | [0].OutputValue" \
     --output text)
 
-aws s3 sync --acl 'public-read' --delete ./static/ "s3://${BUCKET_NAME}/"
+aws s3 sync --acl 'public-read' --delete ./staticweb/ "s3://${BUCKET_NAME}/"
 
 echo "Bucket URL: ${WEBSITE_URL}"

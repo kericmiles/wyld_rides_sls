@@ -20,3 +20,8 @@ resources:
         WebsiteConfiguration:
           ErrorDocument: index.html
           IndexDocument: index.html
+  Outputs:
+    WebsiteURL:
+      Value: {"Fn::GetAtt": [S3WyldRides, WebsiteURL]}
+    WebSiteBucket:
+      Value: {Ref: S3WyldRides}
