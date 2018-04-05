@@ -11,7 +11,33 @@ provider:
   region: us-east-1
   environment:
     sls_stage: ${self:custom.stage}
+    db_name: {Ref: Rides}
+  iamRoleStatements:
+    - Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        "Fn::Join":
+          - ""
+          -
+            - "arn:aws:dynamodb:"
+            - Ref: "AWS::Region"
+            - ":"
+            - Ref: "AWS::AccountId"
+            - ":table/"
+            - Ref: Rides
+      Effect: Allow
 
+functions:
+  RequestUnicorn:
+    handler: requestUnicorn.handler
+    events:
+    - http:
+        cors: true
+        path: /ride
+        method: post
+        authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:724519176433:userpool/us-east-1_yg6bt0IOp
 resources:
   Resources:
     S3WildRydes:
@@ -20,6 +46,18 @@ resources:
         WebsiteConfiguration:
           ErrorDocument: index.html
           IndexDocument: index.html
+    Rides:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: RideId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: RideId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
   Outputs:
     WebsiteURL:
       Value: {"Fn::GetAtt": [S3WildRydes, WebsiteURL]}
