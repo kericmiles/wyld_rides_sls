@@ -6,13 +6,13 @@ echo "Deploying static assets to ${STAGE}..."
 
 BUCKET_NAME=$(aws \
     cloudformation describe-stacks \
-    --stack-name "wyld-rides-${STAGE}" \
+    --stack-name "wild-rydes-${STAGE}" \
     --query "Stacks[0].Outputs[?OutputKey=='WebSiteBucket'] | [0].OutputValue" \
     --output text)
 
 WEBSITE_URL=$(aws \
     cloudformation describe-stacks \
-    --stack-name "wyld-rides-${STAGE}" \
+    --stack-name "wild-rydes-${STAGE}" \
     --query "Stacks[0].Outputs[?OutputKey=='WebSiteUrl'] | [0].OutputValue" \
     --output text)
 

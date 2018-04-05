@@ -1,4 +1,4 @@
-service: wyld-rides
+service: wild-rydes
 
 frameworkVersion: ">=1.26.1 <2.0.0"
 
@@ -14,7 +14,7 @@ provider:
 
 resources:
   Resources:
-    S3WyldRides:
+    S3WildRydes:
       Type: AWS::S3::Bucket
       Properties:
         WebsiteConfiguration:
@@ -22,6 +22,6 @@ resources:
           IndexDocument: index.html
   Outputs:
     WebsiteURL:
-      Value: {"Fn::GetAtt": [S3WyldRides, WebsiteURL]}
+      Value: {"Fn::GetAtt": [S3WildRydes, WebsiteURL]}
     WebSiteBucket:
-      Value: {Ref: S3WyldRides}
+      Value: {Ref: S3WildRydes}
